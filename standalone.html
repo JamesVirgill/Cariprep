@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CARIPREP — Offline Hurricane Resource Hub</title>
+<meta name="description" content="Offline Hurricane Resource Hub for Caribbean islands"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg:hsl(200,55%,6%);
+  --bg-mid:hsl(195,50%,10%);
+  --bg-end:hsl(190,45%,8%);
+  --fg:hsl(180,20%,90%);
+  --card:hsl(195,40%,12%);
+  --card-fg:hsl(180,20%,90%);
+  --primary:hsl(174,60%,45%);
+  --primary-fg:hsl(195,50%,8%);
+  --muted:hsl(195,15%,55%);
+  --border:hsl(195,30%,20%);
+  --radius:0.75rem;
+  --shadow-card:0 2px 16px -2px hsla(195,50%,5%,0.6);
+  --shadow-glow:0 0 20px -4px hsla(174,60%,45%,0.25);
+}
+
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:linear-gradient(170deg,var(--bg) 0%,var(--bg-mid) 40%,var(--bg-end) 100%);
+  color:var(--fg);
+  min-height:100dvh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:2.5rem 1rem;
+  -webkit-font-smoothing:antialiased;
+}
+
+.container{width:100%;max-width:28rem;display:flex;flex-direction:column;gap:2rem}
+
+/* Header */
+header{text-align:center;display:flex;flex-direction:column;align-items:center;gap:0.75rem}
+
+.icon-wrap{
+  width:4rem;height:4rem;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:1rem;
+  background:hsla(174,60%,45%,0.15);
+  box-shadow:var(--shadow-glow);
+  border:1px solid hsla(174,60%,45%,0.3);
+}
+.icon-wrap svg{width:2.25rem;height:2.25rem;color:var(--primary)}
+
+h1{font-size:1.875rem;font-weight:700;letter-spacing:-0.025em;color:var(--fg)}
+.subtitle{font-size:0.875rem;color:var(--muted)}
+
+.badge{
+  display:inline-block;
+  font-size:0.6875rem;font-weight:600;
+  text-transform:uppercase;letter-spacing:0.1em;
+  padding:0.125rem 0.75rem;
+  border-radius:9999px;
+  background:hsla(174,60%,45%,0.15);
+  color:var(--primary);
+  border:1px solid hsla(174,60%,45%,0.25);
+}
+
+/* Action cards */
+nav{display:grid;gap:0.75rem}
+
+.card{
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem 1.25rem;
+  border-radius:var(--radius);
+  background:var(--card);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-card);
+  text-decoration:none;color:var(--card-fg);
+  transition:border-color .2s,background .2s,transform .15s;
+}
+.card:hover{border-color:hsla(174,60%,45%,0.4);background:hsla(195,40%,12%,0.8)}
+.card:active{transform:scale(0.98)}
+
+.card-icon{
+  width:2.5rem;height:2.5rem;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:0.5rem;
+  background:hsla(174,60%,45%,0.1);
+  color:var(--primary);
+  transition:background .2s;
+}
+.card:hover .card-icon{background:hsla(174,60%,45%,0.2)}
+.card-icon svg{width:1.25rem;height:1.25rem}
+
+.card-label{font-size:1rem;font-weight:500;flex:1}
+
+.card-arrow{width:1rem;height:1rem;color:var(--muted);transition:transform .2s}
+.card:hover .card-arrow{transform:translateX(2px)}
+
+/* Footer */
+footer{text-align:center;font-size:0.75rem;color:var(--muted);padding-top:0.5rem}
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <div class="icon-wrap">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="24" cy="24" r="4"/>
+        <path d="M24 8a16 16 0 0 1 11.3 4.7"/>
+        <path d="M35.3 12.7A16 16 0 0 1 40 24"/>
+        <path d="M40 24a16 16 0 0 1-4.7 11.3"/>
+        <path d="M35.3 35.3A16 16 0 0 1 24 40"/>
+        <path d="M24 40a16 16 0 0 1-11.3-4.7"/>
+        <path d="M12.7 35.3A16 16 0 0 1 8 24"/>
+      </svg>
+    </div>
+    <div>
+      <h1>CARIPREP</h1>
+      <p class="subtitle">Offline Hurricane Resource Hub</p>
+    </div>
+    <span class="badge">Demo</span>
+  </header>
+
+  <!-- Action cards -->
+  <nav>
+    <a href="#" class="card">
+      <span class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      </span>
+      <span class="card-label">Emergency Checklist</span>
+      <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#" class="card">
+      <span class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </span>
+      <span class="card-label">Power Outage Guide</span>
+      <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#" class="card">
+      <span class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636-2.871L13.637 3.591a1.914 1.914 0 0 0-3.274 0z"/><path d="M12 17h.01"/></svg>
+      </span>
+      <span class="card-label">Shelter &amp; Storm Surge Tips</span>
+      <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+    <a href="#" class="card">
+      <span class="card-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </span>
+      <span class="card-label">Community Contacts</span>
+      <svg class="card-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <footer>Works without internet &middot; Built for Caribbean islands</footer>
+
+</div>
+</body>
+</html>
