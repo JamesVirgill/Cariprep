@@ -121,9 +121,9 @@ const Index = () => {
     <div style={{ maxWidth: "32rem", margin: "0 auto", padding: "1.5rem 1rem 2rem" }}>
 
       {/* Header */}
-      <header style={{ display: "flex", alignItems: "center", gap: "0.9rem", marginBottom: "1.5rem" }}>
+      <header style={{ display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center", gap: "0.6rem", marginBottom: "1.5rem" }}>
         <div style={{
-          width: "3rem", height: "3rem", flexShrink: 0,
+          width: "3rem", height: "3rem",
           background: "hsl(var(--primary) / 0.15)",
           border: "1px solid hsl(var(--primary) / 0.30)",
           borderRadius: "0.75rem",
@@ -140,12 +140,11 @@ const Index = () => {
             <path d="M12.7 35.3A16 16 0 0 1 8 24" />
           </svg>
         </div>
-        <div style={{ flex: 1 }}>
+        <div>
           <h1 style={{ margin: 0, fontSize: "1.3rem", fontWeight: 800, letterSpacing: "-0.02em", color: "hsl(var(--foreground))" }}>CariPrep</h1>
           <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(var(--muted-foreground))" }}>Offline Caribbean Hurricane Resource Hub</p>
         </div>
         <span style={{
-          flexShrink: 0,
           fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em",
           color: "hsl(var(--primary))",
           background: "hsl(var(--primary) / 0.12)",
@@ -210,53 +209,25 @@ const Index = () => {
         )}
       </div>
 
-      {/* Section Buttons */}
-      <nav style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1.25rem" }}>
-        {[
-          {
-            href: "/before/",
-            icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>,
-            label: "Before the Storm",
-            desc: "Supplies, evacuation plan, insurance, home prep",
-          },
-          {
-            href: "/during/",
-            icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M12 9v4" /><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636-2.871L13.637 3.591a1.914 1.914 0 0 0-3.274 0z" /><path d="M12 17h.01" /></svg>,
-            label: "During the Storm",
-            desc: "Shelter-in-place, surge warnings, generator safety",
-          },
-          {
-            href: "/after/",
-            icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M7.5 12.5l3 3 5-5" /></svg>,
-            label: "After the Storm",
-            desc: "Cleanup, food safety, mold, avoiding scams",
-          },
-        ].map(({ href, icon, label, desc }) => (
-          <a key={href} href={href} style={{
-            display: "flex", alignItems: "center", gap: "0.875rem",
-            padding: "0.875rem 1rem",
-            ...cardStyle,
-            textDecoration: "none",
-            transition: "border-color 0.15s",
-          }}
-            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
-            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
-            <span style={{
-              flexShrink: 0, width: "2.25rem", height: "2.25rem",
-              background: "hsl(var(--primary) / 0.12)",
-              border: "1px solid hsl(var(--primary) / 0.25)",
-              borderRadius: "0.5rem",
-              display: "flex", alignItems: "center", justifyContent: "center",
-              color: "hsl(var(--primary))",
-            }}>{icon}</span>
-            <span style={{ flex: 1 }}>
-              <span style={{ display: "block", fontWeight: 700, fontSize: "0.95rem", color: "hsl(var(--foreground))" }}>{label}</span>
-              <span style={{ display: "block", fontSize: "0.78rem", color: "hsl(var(--muted-foreground))", marginTop: "0.1rem" }}>{desc}</span>
-            </span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "1rem", height: "1rem", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}><path d="M9 18l6-6-6-6" /></svg>
-          </a>
-        ))}
-      </nav>
+      {/* Platform Description */}
+      <div style={{
+        background: "hsl(var(--primary) / 0.06)",
+        border: "1px solid hsl(var(--primary) / 0.18)",
+        borderRadius: "0.75rem",
+        padding: "1rem 1.25rem",
+        marginBottom: "1.25rem",
+      }}>
+        <h2 style={{ margin: "0 0 0.75rem", fontSize: "0.9rem", fontWeight: 700, color: "hsl(var(--primary))" }}>Welcome to CariPrep</h2>
+        <p style={{ margin: "0 0 0.6rem", fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
+          CariPrep is an offline hurricane resource hub designed for the Caribbean. It provides clear, actionable safety information before, during, and after a storm — even when the internet is down.
+        </p>
+        <p style={{ margin: "0 0 0.6rem", fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
+          Built to run on a small local device, CariPrep creates its own WiFi network so multiple phones, tablets, and laptops can connect at the same time. No data plan. No signal. No problem.
+        </p>
+        <p style={{ margin: 0, fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
+          CariPrep compiles trusted public safety information from NOAA and local emergency management agencies, including Caribbean disaster authorities. The content is simplified, organized, and optimized for fast loading on mobile devices — designed to work completely offline.
+        </p>
+      </div>
 
       {/* Tabs Panel */}
       <div style={{ marginBottom: "1.25rem" }}>
