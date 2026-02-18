@@ -1,69 +1,92 @@
 
-# Fix the Homepage: Replace the Demo with the Real CariPrep App
+# Clean Homepage: Centered Header + Platform Description + Search + Tabs + Quick Links
 
-## Root Cause
+## Changes at a Glance
 
-There are **two different homepages** in this project:
+The page layout becomes:
 
-- `public/index.html` — the real, fully-featured CariPrep site (tabs, search, section buttons, quick links). This is served by Apache on the Raspberry Pi.
-- `src/pages/Index.tsx` — the React component served at `/` in the Lovable preview. This is still the original "CARIPREP Demo" with 4 placeholder cards and `href="#"` links that go nowhere.
+```text
+        🌀 CariPrep          [Works Offline]
+   Offline Caribbean Hurricane Resource Hub
 
-The preview always shows the React app. Changes to `public/index.html` never appear in the preview at `/`.
+  ┌─────────────────────────────────────────┐
+  │  🔍 Search topics, e.g. generator...   │
+  └─────────────────────────────────────────┘
+        ↓ results dropdown (unchanged)
 
-## The Fix
+  Welcome to CariPrep
+  CariPrep is an offline hurricane resource hub designed
+  for the Caribbean. It provides clear, actionable safety
+  information before, during, and after a storm — even
+  when the internet is down.
 
-Rewrite `src/pages/Index.tsx` to be a faithful React version of `public/index.html`. Every section of the real homepage gets rebuilt as JSX, using Tailwind-compatible inline styles (to match the existing `--variable` CSS custom properties already defined in `src/index.css`).
+  Built to run on a small local device, CariPrep creates
+  its own WiFi network so multiple phones, tablets, and
+  laptops can connect at the same time. No data plan.
+  No signal. No problem.
 
-## What Will Be in the New Index.tsx
+  Trusted public safety information from NOAA and local
+  emergency management agencies, simplified and optimized
+  for fast loading on mobile during power outages.
 
-### 1. Header
-- Hurricane SVG icon in teal glow box
-- "CariPrep" title + "Offline Caribbean Hurricane Resource Hub" tagline
-- "Works Offline" badge
+  ┌─────────────────────────────────────────┐
+  │  [Before]   [During]   [After]          │
+  ├─────────────────────────────────────────┤
+  │  ⚠ Know your evacuation zone now       │
+  │  • Water, food, documents…              │
+  │  → View full Before the Storm guide     │
+  └─────────────────────────────────────────┘
 
-### 2. Search Bar
-- Text input with magnifier icon
-- Inline search logic (useState + filtering against a pages array)
-- Dropdown results that link to the correct sub-pages
+  QUICK LINKS
+  ┌──────────┐ ┌──────────┐ ┌──────────┐
+  │ Emergency│ │ Shelter  │ │Checklist │
+  └──────────┘ └──────────┘ └──────────┘
+  ┌──────────┐ ┌──────────┐
+  │  Supply  │ │  Family  │
+  │   Kit    │ │   Plan   │
+  └──────────┘ └──────────┘
 
-### 3. Section Buttons (3 large nav cards)
-- Before the Storm → `/before/`
-- During the Storm → `/during/`
-- After the Storm → `/after/`
-- Each with icon, label, description, and arrow
+  CariPrep works offline · Caribbean hurricane resilience
+```
 
-### 4. Tabs Panel (Before / During / After)
-- Tab bar with 3 buttons — React useState controls which is active
-- **Before tab**: evacuation warning box, top supplies list, home prep list, link to `/before/`
-- **During tab**: storm surge warning, Watch vs. Warning list, shelter-in-place steps, generator safety box, link to `/during/`
-- **After tab**: all-clear warning, first steps list, food safety box, contractor fraud box, link to `/after/`
+## Specific Changes to `src/pages/Index.tsx`
 
-### 5. Quick Links (5 small grid cards)
-- Emergency Contacts → `/contacts/`
-- Shelter List → `/shelters/`
-- Printable Checklist → `/checklist/`
-- Supply Kit → `/supply-kit/`
-- Family Plan → `/family-plan/`
+### 1. Center the Header (lines 124–156)
+Change the `<header>` from a left-aligned flex row to a centered column layout:
 
-### 6. Footer
-- "CariPrep works offline · Built for Caribbean hurricane resilience"
-- NOAA/NEMA disclaimer in muted text
+```text
+Before:  display:flex, alignItems:center, gap:0.9rem
+After:   display:flex, flexDirection:column, alignItems:center, textAlign:center, gap:0.6rem
+```
 
-## Styling Approach
+- Icon box moves above the title (stacked, not side-by-side)
+- "Works Offline" badge sits below the subtitle, centered
+- Title and tagline are centered
 
-The existing `src/index.css` already defines all the CSS custom properties (`--bg`, `--card`, `--primary`, `--muted`, `--border`, `--warn-bg`, `--warn-border`, etc.) used by `public/assets/css/style.css`. The React component will use those same variables via `style={{ ... }}` props and `className` where Tailwind already covers it — so the appearance will be identical.
+### 2. Keep Search Bar (lines 159–211)
+Unchanged — search logic, dropdown, and styling stay exactly as they are.
 
-## Files Changed
+### 3. Remove the Three Section Nav Buttons (lines 213–259)
+Delete the entire `<nav>` block containing the Before / During / After large card buttons. The tabs below already serve as navigation to those sections.
 
-- **`src/pages/Index.tsx`** — full rewrite to match `public/index.html` content (this is the only file that needs to change)
+### 4. Add Platform Description Block (new, inserted after search, before tabs)
+A clean prose card with:
+- Heading: **"Welcome to CariPrep"** (small, teal-tinted)
+- Three short paragraphs using the exact text provided by the user
+- Style: subtle teal-tinted background (`hsl(var(--primary) / 0.06)`), matching border, same card radius — visually consistent with the rest of the UI
+- Font: `0.875rem`, line-height `1.65`, muted-foreground color for body text
 
-## Files NOT Changed
+### 5. Tabs Panel (lines 262–374) — Unchanged
+All three tab panels and their content stay exactly as they are.
 
-- `public/index.html` — kept as-is for Pi/Apache deployment
-- `src/App.tsx` — routing stays the same
-- `public/assets/css/style.css` — unchanged
-- All sub-pages (`/before/`, `/during/`, etc.) — unchanged
+### 6. Quick Links (lines 377–417) — Unchanged
+Grid and all 5 links stay exactly as they are.
 
-## Result
+### 7. Footer (lines 419–426) — Minor text update
+Keep the same layout but update the body copy to reflect the new platform description wording (compiles trusted public safety info from NOAA and local emergency management agencies).
 
-After this change, the Lovable preview at `/` will show the exact same content as the Pi deployment: real section buttons, working tabs, a search bar, and quick links — all navigating to the correct sub-pages.
+## Only 1 File Changes
+
+- `src/pages/Index.tsx` — header layout, remove nav buttons, add description block, minor footer text update
+
+`public/index.html`, `src/App.tsx`, CSS files, and all sub-pages are untouched.
