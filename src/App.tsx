@@ -30,6 +30,7 @@ const App = () => (
           <Route path="/checklist/*"   element={<StaticRedirect to="/checklist/index.html" />} />
           <Route path="/supply-kit/*"  element={<StaticRedirect to="/supply-kit/index.html" />} />
           <Route path="/family-plan/*" element={<StaticRedirect to="/family-plan/index.html" />} />
+          <Route path="/first-aid/*"   element={<StaticRedirect to="/first-aid/index.html" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
