@@ -83,6 +83,95 @@
     </a>
   </nav>
 
+  <!-- Tab panel -->
+  <div style="margin-top:1.5rem">
+    <div class="tab-bar" role="tablist">
+      <button class="tab-btn active" role="tab" aria-selected="true" data-tab="before">Before</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="during">During</button>
+      <button class="tab-btn" role="tab" aria-selected="false" data-tab="after">After</button>
+    </div>
+
+    <!-- Before panel -->
+    <div class="tab-panel active" id="tab-before" role="tabpanel">
+      <div class="warn-box">
+        <strong>⚠ Know your evacuation zone BEFORE the storm hits</strong>
+        <p>Don't wait for a warning. Find your zone now at NEMA.gov.bs and plan your route.</p>
+      </div>
+      <h3 style="font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--primary);margin:0.75rem 0 0.5rem">Top Supplies</h3>
+      <ul class="steps">
+        <li><strong>Water:</strong> 1 gallon per person per day (2-week supply)</li>
+        <li><strong>Food:</strong> Non-perishable items for 2 weeks minimum</li>
+        <li><strong>Documents:</strong> IDs, insurance, medical records in waterproof bag</li>
+        <li><strong>Radio:</strong> Battery or hand-crank — your lifeline when power fails</li>
+        <li><strong>Medications:</strong> 30-day supply; keep a written list</li>
+      </ul>
+      <h3 style="font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--primary);margin:0.75rem 0 0.5rem">Home Prep</h3>
+      <ul class="steps">
+        <li>Install or close hurricane shutters; board up if needed</li>
+        <li>Secure boats, outdoor furniture, and loose objects</li>
+        <li>Review and photograph your insurance policy</li>
+      </ul>
+      <a href="before/" style="display:inline-flex;align-items:center;gap:0.35rem;margin-top:1rem;font-size:0.9rem;font-weight:600;color:var(--primary)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        View full Before the Storm guide
+      </a>
+    </div>
+
+    <!-- During panel -->
+    <div class="tab-panel" id="tab-during" role="tabpanel">
+      <div class="warn-box">
+        <strong>⚠ Storm surge is the #1 killer in hurricanes</strong>
+        <p>A surge of just 2 feet of fast-moving water can knock you off your feet. Get to high ground early.</p>
+      </div>
+      <h3 style="font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--primary);margin:0.75rem 0 0.5rem">Watch vs. Warning</h3>
+      <ul class="steps">
+        <li><strong>Hurricane Watch:</strong> Conditions possible within 48 hours — prepare now</li>
+        <li><strong>Hurricane Warning:</strong> Conditions expected within 36 hours — act immediately</li>
+      </ul>
+      <h3 style="font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--primary);margin:0.75rem 0 0.5rem">Shelter-in-Place</h3>
+      <ul class="steps">
+        <li>Go to an interior room away from windows</li>
+        <li>Stay low; protect your head during the eyewall</li>
+        <li>Do NOT go outside during the calm eye — the storm returns</li>
+      </ul>
+      <div class="warn-box" style="margin-top:0.75rem">
+        <strong>🚫 Generator Safety</strong>
+        <p>NEVER run a generator indoors or in a garage. Carbon monoxide kills silently. Keep it 20+ feet from windows.</p>
+      </div>
+      <a href="during/" style="display:inline-flex;align-items:center;gap:0.35rem;margin-top:1rem;font-size:0.9rem;font-weight:600;color:var(--primary)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        View full During the Storm guide
+      </a>
+    </div>
+
+    <!-- After panel -->
+    <div class="tab-panel" id="tab-after" role="tabpanel">
+      <div class="warn-box">
+        <strong>⚠ Wait for the official all-clear before going outside</strong>
+        <p>Downed power lines, contaminated water, and unstable structures remain deadly after the storm passes.</p>
+      </div>
+      <h3 style="font-size:0.875rem;font-weight:700;text-transform:uppercase;letter-spacing:0.07em;color:var(--primary);margin:0.75rem 0 0.5rem">First Steps</h3>
+      <ul class="steps">
+        <li>Check household members for injuries; call for help if needed</li>
+        <li>Inspect for structural damage before re-entering your home</li>
+        <li>Stay away from downed power lines — treat all as live</li>
+        <li>Smell for gas; if detected, leave immediately and call BPL</li>
+      </ul>
+      <div class="info-box">
+        <strong>🍽 Food Safety</strong>
+        <p>Discard refrigerated food after 4 hours without power. "When in doubt, throw it out."</p>
+      </div>
+      <div class="warn-box" style="margin-top:0.5rem">
+        <strong>🚨 Watch for Contractor Fraud</strong>
+        <p>Unlicensed contractors often appear after disasters. Never pay upfront; verify licences at BERQ.bs.</p>
+      </div>
+      <a href="after/" style="display:inline-flex;align-items:center;gap:0.35rem;margin-top:1rem;font-size:0.9rem;font-weight:600;color:var(--primary)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+        View full After the Storm guide
+      </a>
+    </div>
+  </div>
+
   <!-- Quick links -->
   <div style="margin-top:1.5rem">
     <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Quick Links</p>
@@ -120,6 +209,22 @@
   </span>
 </footer>
 
+<script>
+// Tab switching
+(function(){
+  var btns=document.querySelectorAll(".tab-btn");
+  var panels=document.querySelectorAll(".tab-panel");
+  btns.forEach(function(btn){
+    btn.addEventListener("click",function(){
+      btns.forEach(function(b){b.classList.remove("active");b.setAttribute("aria-selected","false");});
+      panels.forEach(function(p){p.classList.remove("active");});
+      btn.classList.add("active");
+      btn.setAttribute("aria-selected","true");
+      document.getElementById("tab-"+btn.dataset.tab).classList.add("active");
+    });
+  });
+})();
+</script>
 <script src="assets/js/search.js"></script>
 <script>
 // Fix search URLs for homepage (we're at root)

@@ -372,6 +372,33 @@ footer{
   .shelter-table th,.shelter-table td{padding:0.5rem 0.625rem}
 }
 
+/* ── Tabs ── */
+.tab-bar{
+  display:flex;
+  border-radius:var(--radius) var(--radius) 0 0;
+  overflow:hidden;
+  border:1px solid var(--border);
+  border-bottom:none;
+}
+.tab-btn{
+  flex:1;min-height:44px;
+  background:var(--card);color:var(--muted);
+  border:none;border-bottom:2px solid transparent;
+  font-size:0.9375rem;font-weight:600;cursor:pointer;
+  transition:color .15s,border-color .15s,background .15s;
+  border-right:1px solid var(--border);
+}
+.tab-btn:last-child{border-right:none}
+.tab-btn:hover{color:var(--fg);background:hsla(195,40%,14%,0.9)}
+.tab-btn.active{color:var(--primary);border-bottom:2px solid var(--primary);background:var(--card)}
+.tab-panel{
+  display:none;
+  background:var(--card);border:1px solid var(--border);
+  border-radius:0 0 var(--radius) var(--radius);
+  padding:1.25rem;
+}
+.tab-panel.active{display:block}
+
 /* ── Print (checklist page) ── */
 @media print{
   body{
