@@ -1,92 +1,95 @@
 
-# Clean Homepage: Centered Header + Platform Description + Search + Tabs + Quick Links
+# Homepage: Remove Search Bar + Pi Deployment Answer
 
-## Changes at a Glance
+## Your Two Questions Answered
 
-The page layout becomes:
+### 1. The Search Bar
+
+The search is genuinely useful during an emergency — a stressed person can type "generator" or "mold" or "shelter" and jump straight to the right page without reading anything. However, you are right that it takes up visual space and adds clutter at the top.
+
+**Recommendation: Keep search, but move it inside the description card** — place it at the bottom of the "Welcome to CariPrep" card, below the description text, as a compact single-line input. This way it is accessible when needed but does not dominate the top of the page. The header stays clean, and the first thing a user sees is the title and description — not a search box.
+
+If you would rather remove it entirely, that is also a clean choice since the tabs and quick links already cover all 8 sections. Just let me know and I will strip it out instead.
+
+### 2. Will Everything Load on the Pi?
+
+Yes — completely. Here is why:
+
+The project has two separate parts:
 
 ```text
-        🌀 CariPrep          [Works Offline]
+public/          ← This is what the Pi serves
+  index.html
+  before/index.html
+  during/index.html
+  after/index.html
+  contacts/index.html
+  shelters/index.html
+  checklist/index.html
+  supply-kit/index.html
+  family-plan/index.html
+  assets/css/style.css
+  assets/js/search.js
+  assets/images/*.png / *.jpg
+  assets/pdfs/*.pdf       ← downloadable PDFs work fine
+
+src/             ← This is ONLY the Lovable preview
+  pages/Index.tsx
+  ...
+```
+
+The Pi runs Apache and serves everything inside `public/` directly. The React code in `src/` never runs on the Pi — it only exists so you can see a preview here in Lovable. The PDFs in `public/assets/pdfs/` are linked from the sub-pages and will download normally over the local WiFi network the Pi creates.
+
+GitHub sync works like this: you push (or Lovable auto-pushes) to GitHub, then on the Pi you run `git pull` and the new files appear in `/var/www/html/` immediately. No build step needed — it is just static files.
+
+---
+
+## What This Plan Changes
+
+### `src/pages/Index.tsx` only
+
+Move the search bar from its current standalone position (between the header and description) to inside the description card, as the last element before the closing edge. This keeps it available but visually subordinate to the description text.
+
+The change is small:
+- Delete the standalone `{/* Search */}` block (lines 157–210)
+- Inside the description card (lines 212–230), add the search input + dropdown results at the bottom, inside the same card container
+
+Everything else — header, tabs, quick links, footer — stays exactly as it is.
+
+### `public/index.html` — no change needed
+The static Pi version already has the search bar embedded correctly and is working fine for deployment.
+
+---
+
+## Result
+
+```text
+        🌀 CariPrep
    Offline Caribbean Hurricane Resource Hub
+          [Works Offline]
 
   ┌─────────────────────────────────────────┐
-  │  🔍 Search topics, e.g. generator...   │
+  │  Welcome to CariPrep                    │
+  │                                         │
+  │  CariPrep is an offline hurricane       │
+  │  resource hub...                        │
+  │                                         │
+  │  Built to run on a small local device   │
+  │  ...No data plan. No signal. No problem.│
+  │                                         │
+  │  Trusted public safety information...   │
+  │                                         │
+  │  🔍 Search topics, e.g. generator…     │  ← search is here, tucked in
   └─────────────────────────────────────────┘
-        ↓ results dropdown (unchanged)
-
-  Welcome to CariPrep
-  CariPrep is an offline hurricane resource hub designed
-  for the Caribbean. It provides clear, actionable safety
-  information before, during, and after a storm — even
-  when the internet is down.
-
-  Built to run on a small local device, CariPrep creates
-  its own WiFi network so multiple phones, tablets, and
-  laptops can connect at the same time. No data plan.
-  No signal. No problem.
-
-  Trusted public safety information from NOAA and local
-  emergency management agencies, simplified and optimized
-  for fast loading on mobile during power outages.
 
   ┌─────────────────────────────────────────┐
   │  [Before]   [During]   [After]          │
   ├─────────────────────────────────────────┤
-  │  ⚠ Know your evacuation zone now       │
-  │  • Water, food, documents…              │
-  │  → View full Before the Storm guide     │
+  │  ...tab content...                      │
   └─────────────────────────────────────────┘
 
   QUICK LINKS
-  ┌──────────┐ ┌──────────┐ ┌──────────┐
-  │ Emergency│ │ Shelter  │ │Checklist │
-  └──────────┘ └──────────┘ └──────────┘
-  ┌──────────┐ ┌──────────┐
-  │  Supply  │ │  Family  │
-  │   Kit    │ │   Plan   │
-  └──────────┘ └──────────┘
-
-  CariPrep works offline · Caribbean hurricane resilience
+  ...
 ```
 
-## Specific Changes to `src/pages/Index.tsx`
-
-### 1. Center the Header (lines 124–156)
-Change the `<header>` from a left-aligned flex row to a centered column layout:
-
-```text
-Before:  display:flex, alignItems:center, gap:0.9rem
-After:   display:flex, flexDirection:column, alignItems:center, textAlign:center, gap:0.6rem
-```
-
-- Icon box moves above the title (stacked, not side-by-side)
-- "Works Offline" badge sits below the subtitle, centered
-- Title and tagline are centered
-
-### 2. Keep Search Bar (lines 159–211)
-Unchanged — search logic, dropdown, and styling stay exactly as they are.
-
-### 3. Remove the Three Section Nav Buttons (lines 213–259)
-Delete the entire `<nav>` block containing the Before / During / After large card buttons. The tabs below already serve as navigation to those sections.
-
-### 4. Add Platform Description Block (new, inserted after search, before tabs)
-A clean prose card with:
-- Heading: **"Welcome to CariPrep"** (small, teal-tinted)
-- Three short paragraphs using the exact text provided by the user
-- Style: subtle teal-tinted background (`hsl(var(--primary) / 0.06)`), matching border, same card radius — visually consistent with the rest of the UI
-- Font: `0.875rem`, line-height `1.65`, muted-foreground color for body text
-
-### 5. Tabs Panel (lines 262–374) — Unchanged
-All three tab panels and their content stay exactly as they are.
-
-### 6. Quick Links (lines 377–417) — Unchanged
-Grid and all 5 links stay exactly as they are.
-
-### 7. Footer (lines 419–426) — Minor text update
-Keep the same layout but update the body copy to reflect the new platform description wording (compiles trusted public safety info from NOAA and local emergency management agencies).
-
-## Only 1 File Changes
-
-- `src/pages/Index.tsx` — header layout, remove nav buttons, add description block, minor footer text update
-
-`public/index.html`, `src/App.tsx`, CSS files, and all sub-pages are untouched.
+One file changes: `src/pages/Index.tsx`
