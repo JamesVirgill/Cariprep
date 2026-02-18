@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>CariPrep — Offline Caribbean Hurricane Resource Hub</title>
+<meta name="description" content="Offline Caribbean hurricane preparedness hub. Works without internet. Built for Bahamian resilience."/>
+<link rel="stylesheet" href="assets/css/style.css"/>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header class="site-header">
+    <div class="brand-icon">
+      <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="24" cy="24" r="4"/>
+        <path d="M24 8a16 16 0 0 1 11.3 4.7"/>
+        <path d="M35.3 12.7A16 16 0 0 1 40 24"/>
+        <path d="M40 24a16 16 0 0 1-4.7 11.3"/>
+        <path d="M35.3 35.3A16 16 0 0 1 24 40"/>
+        <path d="M24 40a16 16 0 0 1-11.3-4.7"/>
+        <path d="M12.7 35.3A16 16 0 0 1 8 24"/>
+      </svg>
+    </div>
+    <div>
+      <h1 class="brand-name">CariPrep</h1>
+      <p class="brand-tagline">Offline Caribbean Hurricane Resource Hub</p>
+    </div>
+    <span class="badge-offline">Works Offline</span>
+  </header>
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+    </svg>
+    <input class="search-input" id="search-input" type="search" placeholder="Search topics, e.g. generator safety…" autocomplete="off"/>
+    <div class="search-results" id="search-results"></div>
+  </div>
+
+  <!-- Main section buttons -->
+  <nav>
+    <a href="before/" class="section-btn">
+      <span class="section-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+        </svg>
+      </span>
+      <span class="section-btn-text">
+        <span class="section-btn-label">Before the Storm</span>
+        <span class="section-btn-desc">Supplies, evacuation plan, insurance, home prep</span>
+      </span>
+      <svg class="section-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a href="during/" class="section-btn">
+      <span class="section-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 9v4"/><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636-2.871L13.637 3.591a1.914 1.914 0 0 0-3.274 0z"/><path d="M12 17h.01"/>
+        </svg>
+      </span>
+      <span class="section-btn-text">
+        <span class="section-btn-label">During the Storm</span>
+        <span class="section-btn-desc">Shelter-in-place, surge warnings, generator safety</span>
+      </span>
+      <svg class="section-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+
+    <a href="after/" class="section-btn">
+      <span class="section-btn-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/>
+          <path d="M7.5 12.5l3 3 5-5"/>
+        </svg>
+      </span>
+      <span class="section-btn-text">
+        <span class="section-btn-label">After the Storm</span>
+        <span class="section-btn-desc">Cleanup, food safety, mold, avoiding scams</span>
+      </span>
+      <svg class="section-btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </a>
+  </nav>
+
+  <!-- Quick links -->
+  <div style="margin-top:1.5rem">
+    <p style="font-size:0.8125rem;color:var(--muted);margin-bottom:0.75rem;text-transform:uppercase;letter-spacing:0.08em;font-weight:600">Quick Links</p>
+    <div class="quick-links">
+      <a href="contacts/" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z"/></svg>
+        Emergency Contacts
+      </a>
+      <a href="shelters/" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Shelter List
+      </a>
+      <a href="checklist/" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        Printable Checklist
+      </a>
+      <a href="supply-kit/" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        Supply Kit
+      </a>
+      <a href="family-plan/" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Family Plan
+      </a>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  CariPrep works offline &middot; Built for Caribbean hurricane resilience &middot; DRM Authority Bahamas
+</footer>
+
+<script src="assets/js/search.js"></script>
+<script>
+// Fix search URLs for homepage (we're at root)
+(function(){
+  var pages=[
+    {title:"Before the Storm",url:"before/",tags:"prepare supplies checklist evacuation shutters generator insurance planning kit water food radio batteries documents cash"},
+    {title:"During the Storm",url:"during/",tags:"shelter surge warning watch flood wind generator carbon monoxide eye wall safety rip currents forecast cone tropical"},
+    {title:"After the Storm",url:"after/",tags:"cleanup mold food safety water boil debris scam contractor damage insurance all-clear neighbors elderly"},
+    {title:"Emergency Contacts",url:"contacts/",tags:"phone call hospital police fire basra drm ambulance 911 919 utilities bpl water btc crisis centre"},
+    {title:"Hurricane Shelter List",url:"shelters/",tags:"shelter abaco andros nassau grand bahama exuma eleuthera bimini cat island long island inagua capacity 2025"},
+    {title:"Printable Checklist",url:"checklist/",tags:"print checklist water food medical documents tools communication home prep pets supplies"},
+    {title:"Supply Kit Guide",url:"supply-kit/",tags:"supplies go bag water food flashlight radio batteries medications documents cash first aid kit pack"},
+    {title:"Family Emergency Plan",url:"family-plan/",tags:"family plan evacuation contacts shelter room drills practice household emergency"},
+    {title:"Generator Safety",url:"during/",tags:"generator carbon monoxide CO danger indoor safety"},
+    {title:"Food Safety After Storm",url:"after/",tags:"refrigerator food 4 hours power outage discard spoiled"},
+    {title:"Boil Water Advisory",url:"after/",tags:"boil water advisory tap water safe drinking"},
+    {title:"Mold Prevention",url:"after/",tags:"mold mildew cleanup dry bleach ventilate"},
+    {title:"Contractor Scams",url:"after/",tags:"scam contractor fraud price gouging unlicensed"},
+  ];
+  var inp=document.getElementById("search-input");
+  var res=document.getElementById("search-results");
+  if(!inp||!res)return;
+  function escHtml(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+  inp.addEventListener("input",function(){
+    var q=inp.value.trim().toLowerCase();
+    res.innerHTML="";
+    if(q.length<2){res.classList.remove("active");return;}
+    var matches=pages.filter(function(p){return p.title.toLowerCase().indexOf(q)>=0||p.tags.indexOf(q)>=0;});
+    if(matches.length===0){res.innerHTML='<div class="search-result-item" style="color:var(--muted)">No results found</div>';res.classList.add("active");return;}
+    matches.forEach(function(m){var a=document.createElement("a");a.className="search-result-item";a.href=m.url;a.innerHTML=escHtml(m.title);res.appendChild(a);});
+    res.classList.add("active");
+  });
+  document.addEventListener("click",function(e){if(!inp.contains(e.target)&&!res.contains(e.target)){res.classList.remove("active");}});
+})();
+</script>
+
+</body>
+</html>
