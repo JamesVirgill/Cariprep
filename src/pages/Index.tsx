@@ -9,6 +9,8 @@ const PAGES = [
   { title: "Printable Checklist", url: "/checklist/", tags: "print checklist water food medical documents tools communication home prep pets supplies" },
   { title: "Supply Kit Guide", url: "/supply-kit/", tags: "supplies go bag water food flashlight radio batteries medications documents cash first aid kit pack" },
   { title: "Family Emergency Plan", url: "/family-plan/", tags: "family plan evacuation contacts shelter room drills practice household emergency" },
+  { title: "First Aid & Medications", url: "/first-aid/", tags: "first aid wound cut infection carbon monoxide CO poisoning dehydration heat stroke heat exhaustion medication insulin 919" },
+  { title: "Mental Health Support", url: "#", tags: "mental health stress anxiety grief counselling wellbeing crisis support post-disaster" },
   { title: "Generator Safety", url: "/during/", tags: "generator carbon monoxide CO danger indoor safety" },
   { title: "Food Safety After Storm", url: "/after/", tags: "refrigerator food 4 hours power outage discard spoiled" },
   { title: "Boil Water Advisory", url: "/after/", tags: "boil water advisory tap water safe drinking" },
@@ -102,6 +104,7 @@ const Index = () => {
   const [activeTab, setActiveTab] = useState<Tab>("before");
   const [query, setQuery] = useState("");
   const [showResults, setShowResults] = useState(false);
+  const [showMentalHealth, setShowMentalHealth] = useState(false);
 
   const results = query.trim().length >= 2
     ? PAGES.filter(p =>
@@ -338,45 +341,141 @@ const Index = () => {
       <div style={{ marginBottom: "1.5rem" }}>
         <p style={{ fontSize: "0.8125rem", color: "hsl(var(--muted-foreground))", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>Quick Links</p>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.5rem" }}>
-          {[
-            {
-              href: "/contacts/", label: "Emergency Contacts",
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z" /></svg>,
-            },
-            {
-              href: "/shelters/", label: "Shelter List",
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>,
-            },
-            {
-              href: "/checklist/", label: "Printable Checklist",
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>,
-            },
-            {
-              href: "/supply-kit/", label: "Supply Kit",
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>,
-            },
-            {
-              href: "/family-plan/", label: "Family Plan",
-              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
-            },
-          ].map(({ href, label, icon }, idx, arr) => (
-            <a key={href} href={href} style={{
+          {/* Emergency Contacts */}
+          <a href="/contacts/" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.4rem", padding: "0.75rem 0.5rem", ...cardStyle, textDecoration: "none", textAlign: "center", transition: "border-color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{ color: "hsl(var(--primary))" }}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z" /></svg></span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>Emergency Contacts</span>
+          </a>
+
+          {/* Shelter List */}
+          <a href="/shelters/" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.4rem", padding: "0.75rem 0.5rem", ...cardStyle, textDecoration: "none", textAlign: "center", transition: "border-color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{ color: "hsl(var(--primary))" }}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg></span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>Shelter List</span>
+          </a>
+
+          {/* Printable Checklist */}
+          <a href="/checklist/" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.4rem", padding: "0.75rem 0.5rem", ...cardStyle, textDecoration: "none", textAlign: "center", transition: "border-color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{ color: "hsl(var(--primary))" }}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg></span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>Printable Checklist</span>
+          </a>
+
+          {/* Supply Kit */}
+          <a href="/supply-kit/" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.4rem", padding: "0.75rem 0.5rem", ...cardStyle, textDecoration: "none", textAlign: "center", transition: "border-color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{ color: "hsl(var(--primary))" }}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg></span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>Supply Kit</span>
+          </a>
+
+          {/* Family Plan */}
+          <a href="/family-plan/" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.4rem", padding: "0.75rem 0.5rem", ...cardStyle, textDecoration: "none", textAlign: "center", transition: "border-color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{ color: "hsl(var(--primary))" }}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg></span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>Family Plan</span>
+          </a>
+
+          {/* First Aid & Medications */}
+          <a href="/first-aid/" style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "0.4rem", padding: "0.75rem 0.5rem", ...cardStyle, textDecoration: "none", textAlign: "center", transition: "border-color 0.15s" }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{ color: "hsl(var(--primary))" }}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M12 5v14M5 12h14" /></svg></span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>First Aid &amp; Meds</span>
+          </a>
+
+          {/* Mental Health Support — Coming Soon (spans full width) */}
+          <button
+            onClick={() => setShowMentalHealth(true)}
+            style={{
+              gridColumn: "span 2",
               display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
               gap: "0.4rem", padding: "0.75rem 0.5rem",
               ...cardStyle,
-              textDecoration: "none",
+              background: cardStyle.background,
+              cursor: "pointer",
               textAlign: "center",
               transition: "border-color 0.15s",
-              ...(idx === arr.length - 1 ? { gridColumn: "span 2" } : {}),
+              width: "100%",
             }}
-              onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
-              onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
-              <span style={{ color: "hsl(var(--primary))" }}>{icon}</span>
-              <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>{label}</span>
-            </a>
-          ))}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{ color: "hsl(var(--primary))" }}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg></span>
+            <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>Mental Health Support <span style={{ color: "hsl(var(--muted-foreground))", fontWeight: 500 }}>(Coming Soon)</span></span>
+          </button>
         </div>
       </div>
+
+      {/* Mental Health Coming Soon Modal */}
+      {showMentalHealth && (
+        <div
+          onClick={() => setShowMentalHealth(false)}
+          style={{
+            position: "fixed", inset: 0, zIndex: 100,
+            background: "hsla(195, 50%, 4%, 0.85)",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            padding: "1.5rem",
+          }}
+        >
+          <div
+            onClick={e => e.stopPropagation()}
+            style={{
+              background: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              borderRadius: "0.75rem",
+              boxShadow: "var(--shadow-card)",
+              padding: "1.5rem",
+              maxWidth: "22rem",
+              width: "100%",
+              position: "relative",
+            }}
+          >
+            <button
+              onClick={() => setShowMentalHealth(false)}
+              style={{
+                position: "absolute", top: "0.75rem", right: "0.75rem",
+                background: "none", border: "none", cursor: "pointer",
+                color: "hsl(var(--muted-foreground))", fontSize: "1.125rem",
+                lineHeight: 1, padding: "0.25rem",
+              }}
+              aria-label="Close"
+            >✕</button>
+
+            <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.75rem" }}>
+              <span style={{ color: "hsl(var(--primary))" }}>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>
+              </span>
+              <h2 style={{ margin: 0, fontSize: "1rem", fontWeight: 700, color: "hsl(var(--foreground))" }}>Mental Health Support</h2>
+            </div>
+
+            <p style={{ margin: "0 0 0.5rem", fontSize: "0.75rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "hsl(var(--primary))" }}>Coming Soon</p>
+
+            <p style={{ margin: 0, fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
+              We are working with local health agencies to bring you crisis support contacts, stress management guides, and post-disaster wellbeing resources. This section will be available in a future update.
+            </p>
+
+            <button
+              onClick={() => setShowMentalHealth(false)}
+              style={{
+                marginTop: "1.25rem",
+                display: "block", width: "100%",
+                padding: "0.6rem 1rem",
+                background: "hsl(var(--primary) / 0.15)",
+                border: "1px solid hsl(var(--primary) / 0.3)",
+                borderRadius: "0.5rem",
+                color: "hsl(var(--primary))",
+                fontWeight: 600, fontSize: "0.875rem",
+                cursor: "pointer",
+              }}
+            >Got it</button>
+          </div>
+        </div>
+      )}
 
       {/* Footer */}
       <footer style={{ textAlign: "center", fontSize: "0.8rem", color: "hsl(var(--muted-foreground))", lineHeight: 1.6 }}>
