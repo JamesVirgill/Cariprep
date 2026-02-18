@@ -1,63 +1,92 @@
 
-# Fix: Static Pages 404 in Preview
+# Add Tabs to the Homepage
 
-## The Problem
+## What This Does
 
-The Lovable preview runs through Vite + React Router. When you visit `/during/`, React Router intercepts the URL before Vite can serve `public/during/index.html`. The `*` catch-all route in `src/App.tsx` matches it and renders the React `NotFound` page instead.
+Adds a tabbed panel to `public/index.html` between the 3 main section buttons and the Quick Links row. Three tabs — **Before**, **During**, and **After** — let the user see the top highlights of each section right on the homepage without navigating away.
 
-The static HTML files exist and are correct — the routing layer just hijacks those paths.
+The tabs are pure HTML/CSS/JS — no frameworks, no external libraries — matching the existing dark teal aesthetic exactly.
 
-## The Fix
+---
 
-Add a redirect component for each static page path in `src/App.tsx`. When React Router matches `/during/`, it will immediately redirect the browser to `/during/index.html` — which Vite WILL serve correctly as a static file from `public/`.
-
-### Paths to add routes for
+## Visual Layout
 
 ```text
-/before/        →  /before/index.html
-/during/        →  /during/index.html
-/after/         →  /after/index.html
-/contacts/      →  /contacts/index.html
-/shelters/      →  /shelters/index.html
-/checklist/     →  /checklist/index.html
-/supply-kit/    →  /supply-kit/index.html
-/family-plan/   →  /family-plan/index.html
+[ BEFORE THE STORM ] → button (existing)
+[ DURING THE STORM ] → button (existing)
+[ AFTER THE STORM  ] → button (existing)
+
+┌─────────────────────────────────────────┐
+│  [Before]  [During]  [After]            │  ← tab bar
+├─────────────────────────────────────────┤
+│  ⚠ Know your evacuation zone now       │
+│  • Water: 1 gallon/person/day           │
+│  • Non-perishable food (2-week supply)  │
+│  • Documents, medications, cash, radio  │
+│  • Secure your home, review insurance   │
+│                                         │
+│  → View full Before the Storm guide     │  ← link to /before/
+└─────────────────────────────────────────┘
+
+[ Emergency Contacts ] [ Shelter List ] ...  ← quick links (existing)
 ```
 
-## Files to Change
+---
 
-### `src/App.tsx`
+## Tab Content (Summaries)
 
-Add a `StaticRedirect` component that uses `useEffect` + `window.location.replace()` to send the browser to the `.html` file. This is a hard browser redirect (not a React Router navigate), so Vite's static file server picks it up correctly.
+### Before Tab
+- Warning box: "Know your evacuation zone BEFORE the storm hits"
+- Top 5 supply items (water, food, docs, radio, medications)
+- Home prep tips (shutters, secure boats, insurance review)
+- "→ View full Before the Storm guide" link
 
-```text
-const StaticRedirect = ({ to }: { to: string }) => {
-  useEffect(() => { window.location.replace(to); }, [to]);
-  return null;
-};
-```
+### During Tab
+- Warning box: "Storm surge is the #1 killer in hurricanes"
+- Hurricane Watch vs. Warning (1-line each)
+- Shelter-in-place steps (3 bullet points)
+- Generator safety danger box
+- "→ View full During the Storm guide" link
 
-Then add one `<Route>` per static page before the `*` catch-all:
+### After Tab
+- Warning box: "Wait for official all-clear before going outside"
+- First 4 steps (check for injuries, structural damage, power lines, gas)
+- Food safety reminder (discard fridge food after 4 hours)
+- Contractor fraud alert
+- "→ View full After the Storm guide" link
 
-```text
-<Route path="/before/*"      element={<StaticRedirect to="/before/index.html" />} />
-<Route path="/during/*"      element={<StaticRedirect to="/during/index.html" />} />
-<Route path="/after/*"       element={<StaticRedirect to="/after/index.html" />} />
-<Route path="/contacts/*"    element={<StaticRedirect to="/contacts/index.html" />} />
-<Route path="/shelters/*"    element={<StaticRedirect to="/shelters/index.html" />} />
-<Route path="/checklist/*"   element={<StaticRedirect to="/checklist/index.html" />} />
-<Route path="/supply-kit/*"  element={<StaticRedirect to="/supply-kit/index.html" />} />
-<Route path="/family-plan/*" element={<StaticRedirect to="/family-plan/index.html" />} />
-```
+---
 
-This only affects the Lovable preview. On the Pi, Apache serves `public/` directly and React Router is never involved — so Pi deployment is unaffected.
+## Files Changed
 
-## What Will Work After This
+### 1. `public/index.html`
+- Add the tab bar HTML + 3 tab panel divs between `</nav>` and the Quick Links div
+- Add inline `<script>` at the bottom for tab switching (10 lines of vanilla JS)
 
-- Clicking any nav link in the preview (Before, During, After, etc.) will load the correct static HTML page
-- The "Back to Home" links on each page go to `/` which loads the React app index (or you can navigate back to `/during/` etc. and it will redirect again correctly)
-- The Pi deployment stays completely unchanged
+### 2. `public/assets/css/style.css`
+Add tab styles (~25 lines) at the end of the file:
+- `.tab-bar` — row of tab buttons, teal underline on active
+- `.tab-btn` — individual tab button, inherits existing card/muted colours
+- `.tab-btn.active` — teal text + teal bottom border
+- `.tab-panel` — hidden by default (`display:none`)
+- `.tab-panel.active` — shown (`display:block`)
 
-## Only 1 File Changes
+---
 
-- `src/App.tsx` — add `StaticRedirect` component and 8 new routes
+## Design Details
+
+- Tab buttons: full-width row, equal thirds, dark card background, no rounded corners on bottom edge so they connect visually to the panel below
+- Active tab: teal text (`var(--primary)`) + 2px teal bottom border
+- Panel: same card background + border as all other cards, rounded bottom corners
+- Font sizes and spacing match existing content (`.card`, `.warn-box`, `.info-box` classes reused)
+- Touch targets: min-height 44px on tab buttons — thumb-friendly
+- No JavaScript library needed — 10-line switch function
+
+---
+
+## Technical Notes
+
+- Only 2 files change: `public/index.html` and `public/assets/css/style.css`
+- Zero impact on the Pi deployment — same static files
+- Works without JavaScript if JS is disabled (first tab content visible by default, tab buttons hidden)
+- The `src/` React app and `src/App.tsx` are not touched
