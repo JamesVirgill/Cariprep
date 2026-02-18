@@ -1,22 +1,136 @@
-import { ClipboardCheck, Zap, ShieldAlert, Users } from "lucide-react";
+import { useState } from "react";
 
-const actions = [
-  { icon: ClipboardCheck, label: "Emergency Checklist", href: "#" },
-  { icon: Zap, label: "Power Outage Guide", href: "#" },
-  { icon: ShieldAlert, label: "Shelter & Storm Surge Tips", href: "#" },
-  { icon: Users, label: "Community Contacts", href: "#" },
+const PAGES = [
+  { title: "Before the Storm", url: "/before/", tags: "prepare supplies checklist evacuation shutters generator insurance planning kit water food radio batteries documents cash" },
+  { title: "During the Storm", url: "/during/", tags: "shelter surge warning watch flood wind generator carbon monoxide eye wall safety rip currents forecast cone tropical" },
+  { title: "After the Storm", url: "/after/", tags: "cleanup mold food safety water boil debris scam contractor damage insurance all-clear neighbors elderly" },
+  { title: "Emergency Contacts", url: "/contacts/", tags: "phone call hospital police fire basra drm ambulance 911 919 utilities bpl water btc crisis centre" },
+  { title: "Hurricane Shelter List", url: "/shelters/", tags: "shelter abaco andros nassau grand bahama exuma eleuthera bimini cat island long island inagua capacity 2025" },
+  { title: "Printable Checklist", url: "/checklist/", tags: "print checklist water food medical documents tools communication home prep pets supplies" },
+  { title: "Supply Kit Guide", url: "/supply-kit/", tags: "supplies go bag water food flashlight radio batteries medications documents cash first aid kit pack" },
+  { title: "Family Emergency Plan", url: "/family-plan/", tags: "family plan evacuation contacts shelter room drills practice household emergency" },
+  { title: "Generator Safety", url: "/during/", tags: "generator carbon monoxide CO danger indoor safety" },
+  { title: "Food Safety After Storm", url: "/after/", tags: "refrigerator food 4 hours power outage discard spoiled" },
+  { title: "Boil Water Advisory", url: "/after/", tags: "boil water advisory tap water safe drinking" },
+  { title: "Mold Prevention", url: "/after/", tags: "mold mildew cleanup dry bleach ventilate" },
+  { title: "Contractor Scams", url: "/after/", tags: "scam contractor fraud price gouging unlicensed" },
 ];
 
-const Index = () => (
-  <div className="flex min-h-dvh flex-col items-center justify-center px-4 py-10">
-    <div className="w-full max-w-md space-y-8">
+type Tab = "before" | "during" | "after";
+
+const sectionHeadingStyle: React.CSSProperties = {
+  fontSize: "0.875rem",
+  fontWeight: 700,
+  textTransform: "uppercase",
+  letterSpacing: "0.07em",
+  color: "hsl(var(--primary))",
+  margin: "0.75rem 0 0.5rem",
+};
+
+const warnBoxStyle: React.CSSProperties = {
+  background: "hsl(38 90% 40% / 0.12)",
+  border: "1px solid hsl(38 90% 50% / 0.35)",
+  borderRadius: "0.5rem",
+  padding: "0.75rem 1rem",
+  fontSize: "0.875rem",
+  lineHeight: 1.55,
+  color: "hsl(var(--foreground))",
+};
+
+const infoBoxStyle: React.CSSProperties = {
+  background: "hsl(var(--primary) / 0.10)",
+  border: "1px solid hsl(var(--primary) / 0.30)",
+  borderRadius: "0.5rem",
+  padding: "0.75rem 1rem",
+  fontSize: "0.875rem",
+  lineHeight: 1.55,
+  color: "hsl(var(--foreground))",
+};
+
+const stepListStyle: React.CSSProperties = {
+  listStyle: "none",
+  padding: 0,
+  margin: 0,
+  display: "flex",
+  flexDirection: "column",
+  gap: "0.35rem",
+};
+
+const stepItemStyle: React.CSSProperties = {
+  fontSize: "0.875rem",
+  lineHeight: 1.5,
+  color: "hsl(var(--foreground))",
+  paddingLeft: "1rem",
+  position: "relative",
+};
+
+function StepList({ items }: { items: React.ReactNode[] }) {
+  return (
+    <ul style={stepListStyle}>
+      {items.map((item, i) => (
+        <li key={i} style={stepItemStyle}>
+          <span style={{ position: "absolute", left: 0, color: "hsl(var(--primary))" }}>›</span>
+          {item}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function GuideLink({ href, label }: { href: string; label: string }) {
+  return (
+    <a
+      href={href}
+      style={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "0.35rem",
+        marginTop: "1rem",
+        fontSize: "0.9rem",
+        fontWeight: 600,
+        color: "hsl(var(--primary))",
+        textDecoration: "none",
+      }}
+    >
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M9 18l6-6-6-6" /></svg>
+      {label}
+    </a>
+  );
+}
+
+const Index = () => {
+  const [activeTab, setActiveTab] = useState<Tab>("before");
+  const [query, setQuery] = useState("");
+  const [showResults, setShowResults] = useState(false);
+
+  const results = query.trim().length >= 2
+    ? PAGES.filter(p =>
+        p.title.toLowerCase().includes(query.toLowerCase()) ||
+        p.tags.includes(query.toLowerCase())
+      )
+    : [];
+
+  const cardStyle: React.CSSProperties = {
+    background: "hsl(var(--card))",
+    border: "1px solid hsl(var(--border))",
+    borderRadius: "0.75rem",
+    boxShadow: "var(--shadow-card)",
+  };
+
+  return (
+    <div style={{ maxWidth: "32rem", margin: "0 auto", padding: "1.5rem 1rem 2rem" }}>
 
       {/* Header */}
-      <header className="text-center space-y-3">
-        {/* Inline SVG icon — hurricane/radar motif */}
-        <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/15 ring-1 ring-primary/30"
-             style={{ boxShadow: "var(--shadow-glow)" }}>
-          <svg viewBox="0 0 48 48" fill="none" className="h-9 w-9 text-primary" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+      <header style={{ display: "flex", alignItems: "center", gap: "0.9rem", marginBottom: "1.5rem" }}>
+        <div style={{
+          width: "3rem", height: "3rem", flexShrink: 0,
+          background: "hsl(var(--primary) / 0.15)",
+          border: "1px solid hsl(var(--primary) / 0.30)",
+          borderRadius: "0.75rem",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          boxShadow: "var(--shadow-glow)",
+        }}>
+          <svg viewBox="0 0 48 48" fill="none" stroke="hsl(var(--primary))" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.75rem", height: "1.75rem" }}>
             <circle cx="24" cy="24" r="4" />
             <path d="M24 8a16 16 0 0 1 11.3 4.7" />
             <path d="M35.3 12.7A16 16 0 0 1 40 24" />
@@ -26,52 +140,293 @@ const Index = () => (
             <path d="M12.7 35.3A16 16 0 0 1 8 24" />
           </svg>
         </div>
-
-        <div className="space-y-1">
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">
-            CARIPREP
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Offline Hurricane Resource Hub
-          </p>
+        <div style={{ flex: 1 }}>
+          <h1 style={{ margin: 0, fontSize: "1.3rem", fontWeight: 800, letterSpacing: "-0.02em", color: "hsl(var(--foreground))" }}>CariPrep</h1>
+          <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(var(--muted-foreground))" }}>Offline Caribbean Hurricane Resource Hub</p>
         </div>
-
-        <span className="inline-block rounded-full bg-primary/15 px-3 py-0.5 text-[11px] font-semibold uppercase tracking-widest text-primary ring-1 ring-primary/25">
-          Demo
-        </span>
+        <span style={{
+          flexShrink: 0,
+          fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em",
+          color: "hsl(var(--primary))",
+          background: "hsl(var(--primary) / 0.12)",
+          border: "1px solid hsl(var(--primary) / 0.25)",
+          borderRadius: "9999px",
+          padding: "0.25rem 0.6rem",
+        }}>Works Offline</span>
       </header>
 
-      {/* Action cards */}
-      <nav className="grid gap-3">
-        {actions.map(({ icon: Icon, label, href }) => (
-          <a
-            key={label}
-            href={href}
-            className="group flex items-center gap-4 rounded-xl border border-border bg-card px-5 py-4
-                       transition-all duration-200
-                       hover:border-primary/40 hover:bg-card/80
-                       active:scale-[0.98]"
-            style={{ boxShadow: "var(--shadow-card)" }}
-          >
-            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary transition-colors group-hover:bg-primary/20">
-              <Icon className="h-5 w-5" />
+      {/* Search */}
+      <div style={{ position: "relative", marginBottom: "1.25rem" }}>
+        <svg style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", width: "1rem", height: "1rem", color: "hsl(var(--muted-foreground))", pointerEvents: "none" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+          <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
+        </svg>
+        <input
+          type="search"
+          placeholder="Search topics, e.g. generator safety…"
+          value={query}
+          onChange={e => { setQuery(e.target.value); setShowResults(true); }}
+          onFocus={() => setShowResults(true)}
+          onBlur={() => setTimeout(() => setShowResults(false), 150)}
+          style={{
+            width: "100%",
+            boxSizing: "border-box",
+            padding: "0.65rem 0.75rem 0.65rem 2.4rem",
+            background: "hsl(var(--card))",
+            border: "1px solid hsl(var(--border))",
+            borderRadius: "0.6rem",
+            color: "hsl(var(--foreground))",
+            fontSize: "0.9rem",
+            outline: "none",
+          }}
+        />
+        {showResults && results.length > 0 && (
+          <div style={{
+            position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
+            background: "hsl(var(--card))",
+            border: "1px solid hsl(var(--border))",
+            borderRadius: "0.6rem",
+            boxShadow: "var(--shadow-card)",
+            overflow: "hidden",
+          }}>
+            {results.map(r => (
+              <a key={r.url + r.title} href={r.url} style={{ display: "block", padding: "0.6rem 1rem", fontSize: "0.875rem", color: "hsl(var(--foreground))", textDecoration: "none", borderBottom: "1px solid hsl(var(--border))" }}
+                onMouseEnter={e => (e.currentTarget.style.background = "hsl(var(--primary) / 0.10)")}
+                onMouseLeave={e => (e.currentTarget.style.background = "")}>
+                {r.title}
+              </a>
+            ))}
+          </div>
+        )}
+        {showResults && query.trim().length >= 2 && results.length === 0 && (
+          <div style={{
+            position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
+            background: "hsl(var(--card))",
+            border: "1px solid hsl(var(--border))",
+            borderRadius: "0.6rem",
+            padding: "0.6rem 1rem",
+            fontSize: "0.875rem",
+            color: "hsl(var(--muted-foreground))",
+          }}>No results found</div>
+        )}
+      </div>
+
+      {/* Section Buttons */}
+      <nav style={{ display: "flex", flexDirection: "column", gap: "0.6rem", marginBottom: "1.25rem" }}>
+        {[
+          {
+            href: "/before/",
+            icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>,
+            label: "Before the Storm",
+            desc: "Supplies, evacuation plan, insurance, home prep",
+          },
+          {
+            href: "/during/",
+            icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M12 9v4" /><path d="M10.363 3.591l-8.106 13.534a1.914 1.914 0 0 0 1.636 2.871h16.214a1.914 1.914 0 0 0 1.636-2.871L13.637 3.591a1.914 1.914 0 0 0-3.274 0z" /><path d="M12 17h.01" /></svg>,
+            label: "During the Storm",
+            desc: "Shelter-in-place, surge warnings, generator safety",
+          },
+          {
+            href: "/after/",
+            icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z" /><path d="M7.5 12.5l3 3 5-5" /></svg>,
+            label: "After the Storm",
+            desc: "Cleanup, food safety, mold, avoiding scams",
+          },
+        ].map(({ href, icon, label, desc }) => (
+          <a key={href} href={href} style={{
+            display: "flex", alignItems: "center", gap: "0.875rem",
+            padding: "0.875rem 1rem",
+            ...cardStyle,
+            textDecoration: "none",
+            transition: "border-color 0.15s",
+          }}
+            onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+            onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+            <span style={{
+              flexShrink: 0, width: "2.25rem", height: "2.25rem",
+              background: "hsl(var(--primary) / 0.12)",
+              border: "1px solid hsl(var(--primary) / 0.25)",
+              borderRadius: "0.5rem",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              color: "hsl(var(--primary))",
+            }}>{icon}</span>
+            <span style={{ flex: 1 }}>
+              <span style={{ display: "block", fontWeight: 700, fontSize: "0.95rem", color: "hsl(var(--foreground))" }}>{label}</span>
+              <span style={{ display: "block", fontSize: "0.78rem", color: "hsl(var(--muted-foreground))", marginTop: "0.1rem" }}>{desc}</span>
             </span>
-            <span className="text-base font-medium text-card-foreground">
-              {label}
-            </span>
-            <svg className="ml-auto h-4 w-4 text-muted-foreground transition-transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-              <path d="M9 18l6-6-6-6" />
-            </svg>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ width: "1rem", height: "1rem", color: "hsl(var(--muted-foreground))", flexShrink: 0 }}><path d="M9 18l6-6-6-6" /></svg>
           </a>
         ))}
       </nav>
 
+      {/* Tabs Panel */}
+      <div style={{ marginBottom: "1.25rem" }}>
+        {/* Tab bar */}
+        <div role="tablist" style={{
+          display: "flex",
+          background: "hsl(var(--card))",
+          border: "1px solid hsl(var(--border))",
+          borderBottom: "none",
+          borderRadius: "0.75rem 0.75rem 0 0",
+          overflow: "hidden",
+        }}>
+          {(["before", "during", "after"] as Tab[]).map(tab => (
+            <button
+              key={tab}
+              role="tab"
+              aria-selected={activeTab === tab}
+              onClick={() => setActiveTab(tab)}
+              style={{
+                flex: 1, minHeight: "44px",
+                background: "none", border: "none", borderBottom: activeTab === tab ? "2px solid hsl(var(--primary))" : "2px solid transparent",
+                color: activeTab === tab ? "hsl(var(--primary))" : "hsl(var(--muted-foreground))",
+                fontWeight: activeTab === tab ? 700 : 500,
+                fontSize: "0.875rem",
+                cursor: "pointer",
+                textTransform: "capitalize",
+                transition: "color 0.15s",
+              }}
+            >
+              {tab.charAt(0).toUpperCase() + tab.slice(1)}
+            </button>
+          ))}
+        </div>
+
+        {/* Panel body */}
+        <div style={{
+          ...cardStyle,
+          borderRadius: "0 0 0.75rem 0.75rem",
+          padding: "1rem",
+        }}>
+          {activeTab === "before" && (
+            <div>
+              <div style={warnBoxStyle}>
+                <strong>⚠ Know your evacuation zone BEFORE the storm hits</strong>
+                <p style={{ margin: "0.35rem 0 0" }}>Don't wait for a warning. Find your zone now at NEMA.gov.bs and plan your route.</p>
+              </div>
+              <h3 style={sectionHeadingStyle}>Top Supplies</h3>
+              <StepList items={[
+                <><strong>Water:</strong> 1 gallon per person per day (2-week supply)</>,
+                <><strong>Food:</strong> Non-perishable items for 2 weeks minimum</>,
+                <><strong>Documents:</strong> IDs, insurance, medical records in waterproof bag</>,
+                <><strong>Radio:</strong> Battery or hand-crank — your lifeline when power fails</>,
+                <><strong>Medications:</strong> 30-day supply; keep a written list</>,
+              ]} />
+              <h3 style={sectionHeadingStyle}>Home Prep</h3>
+              <StepList items={[
+                "Install or close hurricane shutters; board up if needed",
+                "Secure boats, outdoor furniture, and loose objects",
+                "Review and photograph your insurance policy",
+              ]} />
+              <GuideLink href="/before/" label="View full Before the Storm guide" />
+            </div>
+          )}
+
+          {activeTab === "during" && (
+            <div>
+              <div style={warnBoxStyle}>
+                <strong>⚠ Storm surge is the #1 killer in hurricanes</strong>
+                <p style={{ margin: "0.35rem 0 0" }}>A surge of just 2 feet of fast-moving water can knock you off your feet. Get to high ground early.</p>
+              </div>
+              <h3 style={sectionHeadingStyle}>Watch vs. Warning</h3>
+              <StepList items={[
+                <><strong>Hurricane Watch:</strong> Conditions possible within 48 hours — prepare now</>,
+                <><strong>Hurricane Warning:</strong> Conditions expected within 36 hours — act immediately</>,
+              ]} />
+              <h3 style={sectionHeadingStyle}>Shelter-in-Place</h3>
+              <StepList items={[
+                "Go to an interior room away from windows",
+                "Stay low; protect your head during the eyewall",
+                "Do NOT go outside during the calm eye — the storm returns",
+              ]} />
+              <div style={{ ...warnBoxStyle, marginTop: "0.75rem" }}>
+                <strong>🚫 Generator Safety</strong>
+                <p style={{ margin: "0.35rem 0 0" }}>NEVER run a generator indoors or in a garage. Carbon monoxide kills silently. Keep it 20+ feet from windows.</p>
+              </div>
+              <GuideLink href="/during/" label="View full During the Storm guide" />
+            </div>
+          )}
+
+          {activeTab === "after" && (
+            <div>
+              <div style={warnBoxStyle}>
+                <strong>⚠ Wait for the official all-clear before going outside</strong>
+                <p style={{ margin: "0.35rem 0 0" }}>Downed power lines, contaminated water, and unstable structures remain deadly after the storm passes.</p>
+              </div>
+              <h3 style={sectionHeadingStyle}>First Steps</h3>
+              <StepList items={[
+                "Check household members for injuries; call for help if needed",
+                "Inspect for structural damage before re-entering your home",
+                "Stay away from downed power lines — treat all as live",
+                "Smell for gas; if detected, leave immediately and call BPL",
+              ]} />
+              <div style={{ ...infoBoxStyle, marginTop: "0.75rem" }}>
+                <strong>🍽 Food Safety</strong>
+                <p style={{ margin: "0.35rem 0 0" }}>Discard refrigerated food after 4 hours without power. "When in doubt, throw it out."</p>
+              </div>
+              <div style={{ ...warnBoxStyle, marginTop: "0.5rem" }}>
+                <strong>🚨 Watch for Contractor Fraud</strong>
+                <p style={{ margin: "0.35rem 0 0" }}>Unlicensed contractors often appear after disasters. Never pay upfront; verify licences at BERQ.bs.</p>
+              </div>
+              <GuideLink href="/after/" label="View full After the Storm guide" />
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Quick Links */}
+      <div style={{ marginBottom: "1.5rem" }}>
+        <p style={{ fontSize: "0.8125rem", color: "hsl(var(--muted-foreground))", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>Quick Links</p>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.5rem" }}>
+          {[
+            {
+              href: "/contacts/", label: "Emergency Contacts",
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.15 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.05 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21 17z" /></svg>,
+            },
+            {
+              href: "/shelters/", label: "Shelter List",
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>,
+            },
+            {
+              href: "/checklist/", label: "Printable Checklist",
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>,
+            },
+            {
+              href: "/supply-kit/", label: "Supply Kit",
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M20 7H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2z" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>,
+            },
+            {
+              href: "/family-plan/", label: "Family Plan",
+              icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
+            },
+          ].map(({ href, label, icon }) => (
+            <a key={href} href={href} style={{
+              display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
+              gap: "0.4rem", padding: "0.75rem 0.5rem",
+              ...cardStyle,
+              textDecoration: "none",
+              textAlign: "center",
+              transition: "border-color 0.15s",
+            }}
+              onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
+              onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
+              <span style={{ color: "hsl(var(--primary))" }}>{icon}</span>
+              <span style={{ fontSize: "0.72rem", fontWeight: 600, color: "hsl(var(--foreground))", lineHeight: 1.3 }}>{label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
       {/* Footer */}
-      <footer className="pt-2 text-center text-xs text-muted-foreground">
-        Works without internet · Built for Caribbean islands
+      <footer style={{ textAlign: "center", fontSize: "0.8rem", color: "hsl(var(--muted-foreground))", lineHeight: 1.6 }}>
+        CariPrep works offline · Built for Caribbean hurricane resilience
+        <br /><br />
+        <span style={{ display: "block", maxWidth: "34rem", margin: "0 auto", fontSize: "0.75rem", color: "hsl(195 15% 45%)" }}>
+          This site compiles public safety information from NOAA and the National Emergency Management Agency (Bahamas). CariPrep is an independent preparedness resource and is not affiliated with or endorsed by these agencies.
+        </span>
       </footer>
+
     </div>
-  </div>
-);
+  );
+};
 
 export default Index;
