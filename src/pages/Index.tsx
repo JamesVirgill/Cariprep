@@ -154,62 +154,7 @@ const Index = () => {
         }}>Works Offline</span>
       </header>
 
-      {/* Search */}
-      <div style={{ position: "relative", marginBottom: "1.25rem" }}>
-        <svg style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", width: "1rem", height: "1rem", color: "hsl(var(--muted-foreground))", pointerEvents: "none" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-          <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
-        </svg>
-        <input
-          type="search"
-          placeholder="Search topics, e.g. generator safety…"
-          value={query}
-          onChange={e => { setQuery(e.target.value); setShowResults(true); }}
-          onFocus={() => setShowResults(true)}
-          onBlur={() => setTimeout(() => setShowResults(false), 150)}
-          style={{
-            width: "100%",
-            boxSizing: "border-box",
-            padding: "0.65rem 0.75rem 0.65rem 2.4rem",
-            background: "hsl(var(--card))",
-            border: "1px solid hsl(var(--border))",
-            borderRadius: "0.6rem",
-            color: "hsl(var(--foreground))",
-            fontSize: "0.9rem",
-            outline: "none",
-          }}
-        />
-        {showResults && results.length > 0 && (
-          <div style={{
-            position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
-            background: "hsl(var(--card))",
-            border: "1px solid hsl(var(--border))",
-            borderRadius: "0.6rem",
-            boxShadow: "var(--shadow-card)",
-            overflow: "hidden",
-          }}>
-            {results.map(r => (
-              <a key={r.url + r.title} href={r.url} style={{ display: "block", padding: "0.6rem 1rem", fontSize: "0.875rem", color: "hsl(var(--foreground))", textDecoration: "none", borderBottom: "1px solid hsl(var(--border))" }}
-                onMouseEnter={e => (e.currentTarget.style.background = "hsl(var(--primary) / 0.10)")}
-                onMouseLeave={e => (e.currentTarget.style.background = "")}>
-                {r.title}
-              </a>
-            ))}
-          </div>
-        )}
-        {showResults && query.trim().length >= 2 && results.length === 0 && (
-          <div style={{
-            position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
-            background: "hsl(var(--card))",
-            border: "1px solid hsl(var(--border))",
-            borderRadius: "0.6rem",
-            padding: "0.6rem 1rem",
-            fontSize: "0.875rem",
-            color: "hsl(var(--muted-foreground))",
-          }}>No results found</div>
-        )}
-      </div>
-
-      {/* Platform Description */}
+      {/* Platform Description + Search */}
       <div style={{
         background: "hsl(var(--primary) / 0.06)",
         border: "1px solid hsl(var(--primary) / 0.18)",
@@ -224,9 +169,64 @@ const Index = () => {
         <p style={{ margin: "0 0 0.6rem", fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
           Built to run on a small local device, CariPrep creates its own WiFi network so multiple phones, tablets, and laptops can connect at the same time. No data plan. No signal. No problem.
         </p>
-        <p style={{ margin: 0, fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
+        <p style={{ margin: "0 0 0.85rem", fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
           CariPrep compiles trusted public safety information from NOAA and local emergency management agencies, including Caribbean disaster authorities. The content is simplified, organized, and optimized for fast loading on mobile devices — designed to work completely offline.
         </p>
+
+        {/* Search — tucked inside the description card */}
+        <div style={{ position: "relative" }}>
+          <svg style={{ position: "absolute", left: "0.75rem", top: "50%", transform: "translateY(-50%)", width: "1rem", height: "1rem", color: "hsl(var(--muted-foreground))", pointerEvents: "none" }} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
+          </svg>
+          <input
+            type="search"
+            placeholder="Search topics, e.g. generator safety…"
+            value={query}
+            onChange={e => { setQuery(e.target.value); setShowResults(true); }}
+            onFocus={() => setShowResults(true)}
+            onBlur={() => setTimeout(() => setShowResults(false), 150)}
+            style={{
+              width: "100%",
+              boxSizing: "border-box",
+              padding: "0.6rem 0.75rem 0.6rem 2.4rem",
+              background: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              borderRadius: "0.5rem",
+              color: "hsl(var(--foreground))",
+              fontSize: "0.875rem",
+              outline: "none",
+            }}
+          />
+          {showResults && results.length > 0 && (
+            <div style={{
+              position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
+              background: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              borderRadius: "0.6rem",
+              boxShadow: "var(--shadow-card)",
+              overflow: "hidden",
+            }}>
+              {results.map(r => (
+                <a key={r.url + r.title} href={r.url} style={{ display: "block", padding: "0.6rem 1rem", fontSize: "0.875rem", color: "hsl(var(--foreground))", textDecoration: "none", borderBottom: "1px solid hsl(var(--border))" }}
+                  onMouseEnter={e => (e.currentTarget.style.background = "hsl(var(--primary) / 0.10)")}
+                  onMouseLeave={e => (e.currentTarget.style.background = "")}>
+                  {r.title}
+                </a>
+              ))}
+            </div>
+          )}
+          {showResults && query.trim().length >= 2 && results.length === 0 && (
+            <div style={{
+              position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 50,
+              background: "hsl(var(--card))",
+              border: "1px solid hsl(var(--border))",
+              borderRadius: "0.6rem",
+              padding: "0.6rem 1rem",
+              fontSize: "0.875rem",
+              color: "hsl(var(--muted-foreground))",
+            }}>No results found</div>
+          )}
+        </div>
       </div>
 
       {/* Tabs Panel */}
