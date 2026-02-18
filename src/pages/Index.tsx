@@ -144,14 +144,6 @@ const Index = () => {
           <h1 style={{ margin: 0, fontSize: "1.3rem", fontWeight: 800, letterSpacing: "-0.02em", color: "hsl(var(--foreground))" }}>CariPrep</h1>
           <p style={{ margin: 0, fontSize: "0.8rem", color: "hsl(var(--muted-foreground))" }}>Offline Caribbean Hurricane Resource Hub</p>
         </div>
-        <span style={{
-          fontSize: "0.65rem", fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em",
-          color: "hsl(var(--primary))",
-          background: "hsl(var(--primary) / 0.12)",
-          border: "1px solid hsl(var(--primary) / 0.25)",
-          borderRadius: "9999px",
-          padding: "0.25rem 0.6rem",
-        }}>Works Offline</span>
       </header>
 
       {/* Platform Description + Search */}
