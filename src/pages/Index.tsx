@@ -166,11 +166,8 @@ const Index = () => {
         <p style={{ margin: "0 0 0.6rem", fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
           CariPrep is an offline hurricane resource hub designed for the Caribbean. It provides clear, actionable safety information before, during, and after a storm — even when the internet is down.
         </p>
-        <p style={{ margin: "0 0 0.6rem", fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
-          Built to run on a small local device, CariPrep creates its own WiFi network so multiple phones, tablets, and laptops can connect at the same time. No data plan. No signal. No problem.
-        </p>
         <p style={{ margin: "0 0 0.85rem", fontSize: "0.875rem", lineHeight: 1.65, color: "hsl(var(--muted-foreground))" }}>
-          CariPrep compiles trusted public safety information from NOAA and local emergency management agencies, including Caribbean disaster authorities. The content is simplified, organized, and optimized for fast loading on mobile devices — designed to work completely offline.
+          Built to run on a small local device, CariPrep creates its own WiFi network so multiple phones, tablets, and laptops can connect at the same time. No data plan. No signal. No problem.
         </p>
 
         {/* Search — tucked inside the description card */}
@@ -224,13 +221,14 @@ const Index = () => {
               padding: "0.6rem 1rem",
               fontSize: "0.875rem",
               color: "hsl(var(--muted-foreground))",
-            }}>No results found</div>
+            }}>No results found. Try: generator, shelter, mold, food safety</div>
           )}
         </div>
       </div>
 
       {/* Tabs Panel */}
       <div style={{ marginBottom: "1.25rem" }}>
+        <p style={{ fontSize: "0.8125rem", color: "hsl(var(--muted-foreground))", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>Preparedness Guides</p>
         {/* Tab bar */}
         <div role="tablist" style={{
           display: "flex",
@@ -347,7 +345,7 @@ const Index = () => {
       {/* Quick Links */}
       <div style={{ marginBottom: "1.5rem" }}>
         <p style={{ fontSize: "0.8125rem", color: "hsl(var(--muted-foreground))", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.08em", fontWeight: 600 }}>Quick Links</p>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.5rem" }}>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.5rem" }}>
           {[
             {
               href: "/contacts/", label: "Emergency Contacts",
@@ -369,7 +367,7 @@ const Index = () => {
               href: "/family-plan/", label: "Family Plan",
               icon: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ width: "1.25rem", height: "1.25rem" }}><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>,
             },
-          ].map(({ href, label, icon }) => (
+          ].map(({ href, label, icon }, idx, arr) => (
             <a key={href} href={href} style={{
               display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center",
               gap: "0.4rem", padding: "0.75rem 0.5rem",
@@ -377,6 +375,7 @@ const Index = () => {
               textDecoration: "none",
               textAlign: "center",
               transition: "border-color 0.15s",
+              ...(idx === arr.length - 1 ? { gridColumn: "span 2" } : {}),
             }}
               onMouseEnter={e => (e.currentTarget.style.borderColor = "hsl(var(--primary) / 0.5)")}
               onMouseLeave={e => (e.currentTarget.style.borderColor = "hsl(var(--border))")}>
@@ -392,7 +391,8 @@ const Index = () => {
         CariPrep works offline · Built for Caribbean hurricane resilience
         <br /><br />
         <span style={{ display: "block", maxWidth: "34rem", margin: "0 auto", fontSize: "0.75rem", color: "hsl(195 15% 45%)" }}>
-          This site compiles public safety information from NOAA and the National Emergency Management Agency (Bahamas). CariPrep is an independent preparedness resource and is not affiliated with or endorsed by these agencies.
+          Content sourced from NOAA and Caribbean emergency management agencies.<br />
+          CariPrep is an independent resource, not affiliated with or endorsed by these agencies.
         </span>
       </footer>
 
